@@ -1,513 +1,256 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ViceGuard XP Roadmap</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,700;1,800;1,900&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,800;1,900&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
-/* Layout: sticky split-bar nav, hero with cover art beside the title, route planner straight after, then one "// Section" per block of the PDF, each with its table in a scroll panel. */
-:root {
-  color-scheme: dark;
-  --ink: #07051a;
-  --panel: rgba(22, 14, 52, 0.66);
-  --row-a: #0a0620;
-  --row-b: #170c3a;
-  --perk-row: #5c1858;
-  --line: rgba(255, 255, 255, 0.11);
-  --text: #f3effd;
-  --mute: #a99fcf;
-  --dim: #8277b0;
-  --pink: #ff2fa0;
-  --cyan: #2ed8ff;
-  --orange: #ff9a3c;
-  --violet: #a259ff;
-  --on-bright: #12071f;
-  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
-  --body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-  --gutter: clamp(16px, 4vw, 32px);
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body {
-  margin: 0;
-  background-color: var(--ink);
-  background-image:
-    radial-gradient(1100px 520px at 88% -4%, rgba(255, 47, 160, 0.24), transparent 62%),
-    radial-gradient(900px 520px at -4% 14%, rgba(46, 216, 255, 0.13), transparent 62%);
-  background-repeat: no-repeat;
-  color: var(--text);
-  font-family: var(--body);
-  font-size: 16px;
-  line-height: 1.55;
-}
-a { color: inherit; }
-:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-.wrap { max-width: 1160px; margin-inline: auto; padding-inline: var(--gutter); }
-section { scroll-margin-top: 64px; padding-block: 56px 8px; }
-
-/* nav */
-.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(7, 5, 26, 0.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
-.nav::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--pink) 50%, var(--cyan) 50%); }
-.nav-in { display: flex; align-items: center; gap: 20px; padding-block: 14px 10px; }
-.mark { flex: none; font-family: var(--display); font-style: italic; font-weight: 800; font-size: 22px; letter-spacing: 0.02em; text-decoration: none; }
-.mark b { color: var(--pink); font-weight: 800; }
-.links { flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; justify-content: flex-end; }
-.links::-webkit-scrollbar { display: none; }
-.links a { flex: none; font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--mute); padding: 4px 10px; }
-.links a:hover { color: var(--cyan); }
-
-/* hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(28px, 5vw, 64px); align-items: center; padding-block: clamp(32px, 6vw, 72px) 24px; }
-.eyebrow { font-family: var(--display); font-weight: 700; font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin: 0 0 10px; }
-h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 900; text-transform: uppercase; font-size: clamp(60px, 11.5vw, 132px); line-height: 0.9; letter-spacing: 0.01em; color: #f7f2ff; text-shadow: 4px 4px 0 var(--pink); text-wrap: balance; }
-.tag { margin: 22px 0 0; font-family: var(--display); font-style: italic; font-weight: 800; font-size: clamp(18px, 2.4vw, 24px); letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); }
-.lede { max-width: 46ch; margin: 14px 0 0; color: var(--mute); font-size: 18px; }
-.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.btn { display: inline-block; font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; padding: 12px 22px; border: 2px solid var(--pink); background: var(--pink); color: var(--on-bright); cursor: pointer; }
-.btn:hover { filter: brightness(1.1); }
-.btn.alt { background: transparent; color: var(--cyan); border-color: var(--cyan); }
-.btn.alt:hover { background: rgba(46, 216, 255, 0.1); filter: none; }
-.cost { margin-top: 36px; }
-.cost h2 { margin: 0 0 10px; font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
-.cost dl { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 0; margin: 0; }
-.cost div { padding: 4px 22px 4px 0; margin-right: 22px; border-right: 1px solid var(--line); min-width: 0; }
-.cost div:last-child { border-right: 0; margin-right: 0; }
-.cost dt { font-family: var(--display); font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
-.cost dd { margin: 0; font-family: var(--mono); font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; }
-.cover { padding: 3px; background: linear-gradient(135deg, var(--pink), var(--violet) 50%, var(--cyan)); box-shadow: 0 0 70px rgba(255, 47, 160, 0.35), 0 0 120px rgba(46, 216, 255, 0.15); max-width: 560px; justify-self: end; width: 100%; }
-.cover img { display: block; width: 100%; height: auto; }
-
-/* section headers */
-.sh { margin-bottom: 22px; }
-.sh h2 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 800; font-size: clamp(38px, 6vw, 56px); line-height: 1; text-wrap: balance; }
-.sh h2 span { color: var(--pink); margin-right: 10px; }
-.kick { margin: 6px 0 0; font-family: var(--display); font-weight: 700; font-size: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); }
-.intro { max-width: 72ch; margin: 0 0 22px; color: var(--mute); }
-.intro code, .callout code, td code { font-family: var(--mono); font-size: 0.9em; color: var(--cyan); }
-
-/* tables */
-.tw { overflow-x: auto; border-bottom: 2px solid var(--pink); }
-.tw.cy { border-color: var(--cyan); }
-.tw.or { border-color: var(--orange); }
-.tw.vi { border-color: var(--violet); }
-table { width: 100%; border-collapse: collapse; font-size: 15px; }
-th { background: var(--pink); color: var(--on-bright); text-align: left; font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 14px; white-space: nowrap; }
-.cy th { background: var(--cyan); }
-.or th { background: var(--orange); }
-.vi th { background: var(--violet); }
-td { padding: 9px 14px; vertical-align: top; }
-tbody tr:nth-child(odd) { background: var(--row-a); }
-tbody tr:nth-child(even) { background: var(--row-b); }
-.n { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
-th.n { text-align: right; }
-.lv { font-family: var(--mono); font-weight: 700; white-space: nowrap; }
-.pk-b { color: var(--pink); } .pk-c { color: var(--cyan); } .pk-x { color: var(--orange); }
-.mono-b { font-family: var(--mono); font-weight: 700; }
-.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; align-items: start; }
-.two > * { min-width: 0; }
-.callout { margin-top: 28px; border: 1.5px solid var(--orange); background: rgba(255, 154, 60, 0.06); padding: 16px 20px; }
-.callout h3 { margin: 0 0 4px; font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); }
-.callout p { margin: 0; max-width: 90ch; }
-
-/* how xp works */
-.how { border-left: 4px solid var(--pink); background: var(--panel); }
-.how div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; padding: 14px 20px; }
-.how div:nth-child(even) { background: rgba(255, 255, 255, 0.03); }
-.how dt { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: 0.04em; color: var(--cyan); }
-.how dd { margin: 0; }
-
-/* commands */
-.cmd { font-family: var(--mono); font-weight: 700; font-size: 14px; color: var(--cyan); white-space: nowrap; }
-.cmd.wrap-cmd { white-space: normal; }
-
-/* ranks */
-.rk td:first-child { border-left: 5px solid var(--c); }
-.rk .name { font-family: var(--display); font-weight: 700; font-size: 19px; letter-spacing: 0.02em; color: var(--c); white-space: nowrap; }
-.rk .vibe { color: var(--mute); font-size: 14px; min-width: 260px; }
-
-/* unlocks */
-.ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; align-items: start; }
-.ul > * { min-width: 0; }
-.ul td:first-child { width: 110px; font-family: var(--mono); font-weight: 700; color: var(--c); white-space: nowrap; }
-
-/* planner */
-.planner { position: relative; display: grid; grid-template-columns: minmax(0, 330px) minmax(0, 1fr); gap: clamp(24px, 4vw, 48px); padding: 32px clamp(18px, 3vw, 32px) 28px; background: var(--panel); border: 1px solid var(--line); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-.planner::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--pink) 50%, var(--cyan) 50%); }
-.planner > * { min-width: 0; }
-.fields { display: grid; gap: 18px; align-content: start; }
-.fields label { display: block; font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); margin-bottom: 6px; }
-.fields input, .fields select { width: 100%; background: #0a0622; color: var(--text); border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 0; padding: 10px 12px; font-family: var(--mono); font-weight: 700; font-size: 20px; }
-.fields input:focus, .fields select:focus { border-color: var(--cyan); outline: none; box-shadow: 0 0 0 3px rgba(46, 216, 255, 0.25); }
-.hint { margin: 0; font-size: 14px; color: var(--dim); }
-.res { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 28px; }
-.res dt { font-family: var(--display); font-weight: 600; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
-.res dd { margin: 0; font-family: var(--mono); font-weight: 700; font-size: clamp(22px, 3.2vw, 30px); line-height: 1.25; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-.state { margin: 24px 0 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--mute); }
-.state b { color: var(--text); font-weight: 600; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
-.chips li { font-family: var(--display); font-weight: 600; font-size: 16px; letter-spacing: 0.04em; padding: 3px 10px; border: 1.5px solid currentColor; }
-.chips .b { color: var(--pink); } .chips .c { color: var(--cyan); }
-.err { color: var(--orange); margin: 0; }
-
-/* roadmap table */
-.tools { display: flex; flex-wrap: wrap; align-items: end; gap: 16px 24px; margin-bottom: 14px; }
-.tools .f { display: flex; flex-direction: column; gap: 6px; }
-.tools label.l { font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
-.tools .row { display: flex; gap: 8px; }
-.tools input[type="number"] { width: 120px; background: #0a0622; color: var(--text); border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 0; padding: 8px 10px; font-family: var(--mono); font-weight: 700; font-size: 17px; }
-.tools input[type="number"]:focus { border-color: var(--cyan); outline: none; }
-.tools .btn { padding: 8px 18px; font-size: 16px; }
-.chk { display: flex; align-items: center; gap: 8px; padding-bottom: 9px; font-family: var(--display); font-weight: 600; font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; }
-.chk input { width: 18px; height: 18px; accent-color: var(--pink); }
-.count { margin-left: auto; padding-bottom: 9px; color: var(--dim); font-size: 14px; }
-.big { max-height: min(74vh, 760px); overflow: auto; border-bottom: 2px solid var(--cyan); }
-.big table { min-width: 760px; }
-.big thead th { position: sticky; top: 0; z-index: 2; background: var(--cyan); }
-.big tr.pk td { background: var(--perk-row); }
-.big tr.pk .lv { color: #ffd0ee; }
-.big.perk-only tbody tr:not(.pk) { display: none; }
-.big tr.hit td { background: #7d2a74; box-shadow: inset 0 2px 0 var(--cyan), inset 0 -2px 0 var(--cyan); }
-.boost { color: var(--orange); } .cd { color: var(--cyan); }
-
-/* footer */
-footer { position: relative; margin-top: 72px; padding-block: 90px 36px; overflow: hidden; text-align: center; }
-footer::before { content: ""; position: absolute; left: -20%; right: -20%; bottom: -10px; height: 240px; background-image: linear-gradient(rgba(255, 47, 160, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 47, 160, 0.4) 1px, transparent 1px); background-size: 52px 52px; transform: perspective(260px) rotateX(62deg); transform-origin: bottom; -webkit-mask-image: linear-gradient(to top, #000 30%, transparent); mask-image: linear-gradient(to top, #000 30%, transparent); }
-footer::after { content: ""; position: absolute; inset: auto 0 0 0; height: 280px; background: radial-gradient(60% 100% at 50% 100%, rgba(255, 47, 160, 0.4), transparent 70%); }
-footer > * { position: relative; z-index: 1; }
-footer .big-line { margin: 0; font-family: var(--display); font-style: italic; font-weight: 800; font-size: clamp(24px, 4vw, 34px); letter-spacing: 0.06em; text-transform: uppercase; color: var(--pink); }
-footer p { margin: 8px auto 0; max-width: 60ch; color: var(--mute); font-size: 14px; }
-
-@media (max-width: 900px) {
-  .hero { grid-template-columns: minmax(0, 1fr); }
-  .cover { justify-self: start; max-width: 460px; }
-  .planner { grid-template-columns: minmax(0, 1fr); }
-  .two, .ul { grid-template-columns: minmax(0, 1fr); }
-}
-@media (max-width: 640px) {
-  .cost dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 0; }
-  .cost div:nth-child(2) { border-right: 0; margin-right: 0; }
-  .how div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
-  .nav-in { gap: 10px; }
-  .res { grid-template-columns: minmax(0, 1fr); }
-  .count { margin-left: 0; }
-}
-</style>
-
-<header class="nav">
-  <div class="wrap nav-in">
-    <a class="mark" href="#top">VICEGUARD <b>//</b></a>
-    <nav class="links" aria-label="Sections">
-      <a href="#planner">Planner</a>
-      <a href="#perks">Perks</a>
-      <a href="#xp">How XP works</a>
-      <a href="#commands">Commands</a>
-      <a href="#ranks">Ranks</a>
-      <a href="#unlocks">Unlocks</a>
-      <a href="#milestones">Milestones</a>
-      <a href="#roadmap">All levels</a>
-    </nav>
-  </div>
-</header>
-
+:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--ink:#07051a;--panel:rgba(22,14,52,.7);--a:#0a0620;--b:#170c3a;--line:rgba(255,255,255,.12);--text:#f3effd;--mute:#a99fcf;--dim:#8277b0;--pink:#ff2fa0;--cyan:#2ed8ff;--orange:#ff9a3c;--violet:#a259ff;--on:#12071f;--d:"Barlow Condensed","Arial Narrow",Impact,sans-serif;--m:"JetBrains Mono",ui-monospace,Menlo,monospace;--g:clamp(16px,4vw,32px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(70px + env(safe-area-inset-top,0px))}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink) radial-gradient(1100px 520px at 88% -4%,rgba(255,47,160,.24),transparent 62%) no-repeat;color:var(--text);font:16px/1.55 Barlow,system-ui,sans-serif}
+a{color:inherit}:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1160px;margin-inline:auto;padding-inline:var(--g)}
+section{padding-block:52px 4px}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(7,5,26,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav::before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,var(--pink) 50%,var(--cyan) 50%)}
+.nav .wrap{display:flex;align-items:center;gap:16px;padding-block:13px 9px}
+.mark{font:italic 800 22px var(--d);text-decoration:none}.mark b{color:var(--pink)}
+.links{flex:1;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;justify-content:flex-end}
+.links a{flex:none;font:600 15px var(--d);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--mute);padding:4px 10px;border-bottom:2px solid transparent}
+.links a:hover{color:var(--cyan)}.links a.on{color:var(--text);border-color:var(--pink)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,64px);align-items:center;padding-block:clamp(32px,6vw,72px) 16px}
+.eyebrow{font:700 16px var(--d);letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin:0 0 10px}
+h1{margin:0;font:italic 900 clamp(60px,11vw,128px)/.9 var(--d);text-transform:uppercase;text-shadow:4px 4px 0 var(--pink)}
+.lede{max-width:46ch;margin:18px 0 0;color:var(--mute);font-size:18px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{font:700 18px var(--d);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:11px 22px;border:2px solid var(--pink);background:var(--pink);color:var(--on);cursor:pointer}
+.btn:hover{filter:brightness(1.1)}.btn.alt{background:transparent;color:var(--cyan);border-color:var(--cyan)}
+.cost{display:grid;grid-template-columns:repeat(4,auto);justify-content:start;margin:34px 0 0}
+.cost div{padding:2px 20px 2px 0;margin-right:20px;border-right:1px solid var(--line)}.cost div:last-child{border:0}
+.cost dt,.res dt{font:600 13px var(--d);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.cost dd{margin:0;font:700 18px var(--m)}
+.cover{padding:3px;background:linear-gradient(135deg,var(--pink),var(--violet),var(--cyan));box-shadow:0 0 70px rgba(255,47,160,.35);max-width:520px;justify-self:end;width:100%}
+.cover svg{display:block;width:100%;height:auto}
+.sh h2{margin:0;font:italic 800 clamp(38px,6vw,56px)/1 var(--d)}.sh h2 span{color:var(--pink);margin-right:10px}
+.kick{margin:6px 0 20px;font:700 16px var(--d);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.intro{max-width:72ch;margin:0 0 20px;color:var(--mute)}
+code{font-family:var(--m);font-size:.9em;color:var(--cyan)}
+.tw{overflow-x:auto;border-bottom:2px solid var(--pink)}.tw.cy{border-color:var(--cyan)}.tw.or{border-color:var(--orange)}.tw.vi{border-color:var(--violet)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{background:var(--pink);color:var(--on);text-align:left;font:700 14px var(--d);letter-spacing:.1em;text-transform:uppercase;padding:10px 14px;white-space:nowrap}
+.cy th{background:var(--cyan)}.or th{background:var(--orange)}.vi th{background:var(--violet)}
+td{padding:9px 14px;vertical-align:top}
+tbody tr:nth-child(odd){background:var(--a)}tbody tr:nth-child(even){background:var(--b)}
+.n{font-family:var(--m);text-align:right;white-space:nowrap}th.n{text-align:right}
+.lv{font:700 15px var(--m);white-space:nowrap}
+.pb{color:var(--pink)}.pc{color:var(--cyan)}.px{color:var(--orange)}
+.two,.ul{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}.two>*,.ul>*{min-width:0}
+.callout{margin-top:26px;border:1.5px solid var(--orange);background:rgba(255,154,60,.06);padding:14px 20px}
+.callout h3{margin:0 0 4px;font:600 15px var(--d);letter-spacing:.1em;text-transform:uppercase;color:var(--orange)}.callout p{margin:0}
+.how{margin:0;border-left:4px solid var(--pink);background:var(--panel)}
+.how div{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:13px 20px}.how div:nth-child(even){background:rgba(255,255,255,.03)}
+.how dt{font:700 18px var(--d);color:var(--cyan)}.how dd{margin:0}
+.cmd{font:700 14px var(--m);color:var(--cyan)}
+.rk td:first-child{border-left:5px solid var(--c)}.rk .name{font:700 19px var(--d);color:var(--c);white-space:nowrap}.rk .vibe{color:var(--mute);font-size:14px;min-width:240px}
+.ul td:first-child{width:100px;font:700 14px var(--m);color:var(--c);white-space:nowrap}
+.planner{position:relative;display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:clamp(24px,4vw,48px);padding:32px clamp(18px,3vw,32px) 26px;background:var(--panel);border:1px solid var(--line)}
+.planner::before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,var(--pink) 50%,var(--cyan) 50%)}
+.planner>*{min-width:0}
+.fields{display:grid;gap:16px;align-content:start}
+label.l{display:block;font:700 14px var(--d);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:5px}
+input,select{width:100%;background:#0a0622;color:var(--text);border:1.5px solid rgba(255,255,255,.2);border-radius:0;padding:9px 12px;font:700 19px var(--m)}
+input:focus,select:focus{border-color:var(--cyan);outline:none;box-shadow:0 0 0 3px rgba(46,216,255,.25)}
+.hint{margin:0;font-size:14px;color:var(--dim)}
+.pre{display:flex;flex-wrap:wrap;gap:6px}.pre button{background:none;color:var(--mute);border:1.5px solid var(--line);font:600 14px var(--d);letter-spacing:.06em;padding:3px 10px;cursor:pointer}
+.pre button:hover{color:var(--cyan);border-color:var(--cyan)}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:18px 28px;margin:0}
+.res dd{margin:0;font:700 clamp(22px,3.2vw,30px)/1.25 var(--m);overflow-wrap:anywhere}
+.eta{margin:22px 0 0;padding:14px 16px;border:1.5px dashed var(--cyan);display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.eta label{font:700 14px var(--d);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.eta input{width:90px;font-size:17px;padding:6px 8px}.eta b{font:700 20px var(--m);color:var(--cyan)}
+.bar{height:10px;background:#0a0622;margin-top:18px;border:1px solid var(--line)}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--cyan));width:0;transition:width .3s}
+.state{margin:14px 0 0;color:var(--mute)}.state b{color:var(--text)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;list-style:none}
+.chips li{font:600 16px var(--d);padding:3px 10px;border:1.5px solid currentColor}.chips .b{color:var(--pink)}.chips .c{color:var(--cyan)}
+.err{color:var(--orange);margin:0}
+.tools{display:flex;flex-wrap:wrap;align-items:end;gap:14px 22px;margin-bottom:14px}
+.tools .row{display:flex;gap:8px}.tools input[type=number],.tools input[type=search]{width:140px;font-size:16px;padding:8px 10px}
+.tools input[type=search]{width:200px}
+.tools .btn{padding:7px 18px;font-size:16px}
+.chk{display:flex;align-items:center;gap:8px;padding-bottom:8px;font:600 17px var(--d);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}.chk input{width:18px;height:18px;accent-color:var(--pink)}
+.count{margin-left:auto;padding-bottom:8px;color:var(--dim);font-size:14px}
+.big{max-height:min(74vh,760px);overflow:auto;border-bottom:2px solid var(--cyan)}.big table{min-width:760px}
+.big thead th{position:sticky;top:0;z-index:2;background:var(--cyan)}
+.big tr.pk td{background:#5c1858}.big.po tbody tr:not(.pk){display:none}
+.big tr.hit td{background:#7d2a74;box-shadow:inset 0 2px 0 var(--cyan),inset 0 -2px 0 var(--cyan)}
+.boost{color:var(--orange)}.cd{color:var(--cyan)}
+#top-btn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:none;background:var(--pink);color:var(--on);border:0;font:700 16px var(--d);padding:10px 14px;cursor:pointer}
+footer{margin-top:64px;padding-block:70px 36px;text-align:center;background:radial-gradient(60% 100% at 50% 100%,rgba(255,47,160,.35),transparent 70%)}
+footer .bl{margin:0;font:italic 800 clamp(24px,4vw,34px) var(--d);letter-spacing:.06em;text-transform:uppercase;color:var(--pink)}footer p{color:var(--mute);font-size:14px}
+@media(max-width:900px){.hero,.planner,.two,.ul{grid-template-columns:1fr}.cover{justify-self:start}}
+@media(max-width:640px){.cost{grid-template-columns:1fr 1fr;gap:14px 0}.cost div:nth-child(2){border:0}.how div{grid-template-columns:1fr;gap:2px}.res{grid-template-columns:1fr}.count{margin-left:0}}
+</style></head><body>
+<header class="nav"><div class="wrap">
+<a class="mark" href="#top">VICEGUARD <b>//</b></a>
+<nav class="links" aria-label="Sections"><a href="#planner">Planner</a><a href="#perks">Perks</a><a href="#xp">How XP works</a><a href="#commands">Commands</a><a href="#ranks">Ranks</a><a href="#unlocks">Unlocks</a><a href="#milestones">Milestones</a><a href="#roadmap">All levels</a></nav>
+</div></header>
 <main id="top">
-  <div class="wrap hero">
-    <div>
-      <p class="eyebrow">ViceGuard // Levels 1&ndash;800</p>
-      <h1>XP Roadmap</h1>
-      <p class="tag">Every level &middot; Every perk &middot; From 1 to 800</p>
-      <p class="lede">XP, messages and time needed to reach every level. Level boosts and message cooldowns applied level by level.</p>
-      <div class="cta">
-        <a class="btn" href="#planner">Plan your climb</a>
-        <a class="btn alt" href="#roadmap">Browse all 800 levels</a>
-      </div>
-      <div class="cost">
-        <h2>To reach level 800</h2>
-        <dl>
-          <div><dt>Total XP</dt><dd>4,355,944</dd></div>
-          <div><dt>Messages</dt><dd>73,900</dd></div>
-          <div><dt>Chat time</dt><dd>14d 15h 33m</dd></div>
-          <div><dt>Voice time</dt><dd>89d 19h 24m</dd></div>
-        </dl>
-      </div>
-    </div>
+<div class="wrap hero"><div>
+<p class="eyebrow">ViceGuard // Levels 1&ndash;800</p><h1>XP Roadmap</h1>
+<p class="lede">XP, messages and time needed to reach every level, with boosts and cooldowns applied level by level.</p>
+<div class="cta"><a class="btn" href="#planner">Plan your climb</a><a class="btn alt" href="#roadmap">Browse all 800 levels</a></div>
+<dl class="cost"><div><dt>Total XP</dt><dd id="h-xp"></dd></div><div><dt>Messages</dt><dd id="h-m"></dd></div><div><dt>Chat time</dt><dd id="h-c"></dd></div><div><dt>Voice time</dt><dd id="h-v"></dd></div></dl>
+</div>
+<div class="cover"><svg viewBox="0 0 600 600" role="img" aria-label="Neon palm trees and VG monogram over a Vice City sunset">
+<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0638"/><stop offset=".55" stop-color="#9a1f86"/><stop offset="1" stop-color="#ff7a3c"/></linearGradient><linearGradient id="sn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd24a"/><stop offset="1" stop-color="#ff2fa0"/></linearGradient><linearGradient id="wt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a0f6e"/><stop offset="1" stop-color="#0a0622"/></linearGradient></defs>
+<rect width="600" height="600" fill="url(#sk)"/><circle cx="300" cy="330" r="130" fill="url(#sn)"/>
+<g fill="#1a0638"><rect x="0" y="335" width="600" height="6" opacity=".35"/><rect x="0" y="352" width="600" height="8" opacity=".35"/><rect x="0" y="372" width="600" height="10" opacity=".35"/></g>
+<rect y="400" width="600" height="200" fill="url(#wt)"/>
+<g stroke="#2ed8ff" stroke-opacity=".5"><path d="M0 430H600M0 470H600M0 520H600M0 580H600"/></g>
+<g fill="#07051a"><path d="M95 410c4-80 8-150 2-230l10 0c6 80 2 150-2 230z"/><path d="M505 410c-4-70-8-120-2-190l-10 0c-6 70-2 120 2 190z"/>
+<path d="M102 180c-50-10-80 10-96 40 30-20 60-22 96-12zM102 180c40-30 80-28 110-4-40-8-70-2-110 10zM102 180c-20-30-30-60-20-90 14 30 24 52 28 88zM102 180c30-20 60-50 90-50-30 10-54 30-86 56z"/>
+<path d="M498 220c50-10 74 6 92 34-28-18-56-20-92-10zM498 220c-40-30-76-26-104-2 36-8 68-2 104 10zM498 220c20-30 30-56 20-84-14 28-22 48-26 82z"/></g>
+<g font-family="Barlow Condensed,Impact,sans-serif" font-style="italic" font-weight="900" text-anchor="middle">
+<text x="304" y="304" font-size="150" fill="#ff2fa0" opacity=".9">VG</text><text x="300" y="300" font-size="150" fill="#f7f2ff" stroke="#2ed8ff" stroke-width="3">VG</text>
+<text x="300" y="470" font-size="46" letter-spacing="8" fill="#2ed8ff">VICEGUARD</text></g></svg></div></div>
 
-  <div class="wrap">
-    <section id="planner">
-      <header class="sh"><h2><span>//</span>Plan Your Climb</h2><p class="kick">Pick a start and a target level</p></header>
-      <div class="planner">
-        <div class="fields">
-          <div><label for="from">Current level</label><input id="from" type="number" inputmode="numeric" min="0" max="799" value="0"></div>
-          <div><label for="to">Target level</label><input id="to" type="number" inputmode="numeric" min="1" max="800" value="100"></div>
-          <div><label for="ev">XP event multiplier</label>
-            <select id="ev">
-              <option value="1" selected>1x (no event)</option>
-              <option value="2">2x</option><option value="3">3x</option><option value="5">5x</option>
-              <option value="10">10x</option><option value="25">25x</option><option value="50">50x</option>
-              <option value="100">100x</option><option value="200">200x</option>
-            </select>
-          </div>
-          <p class="hint">Staff events run 1x to 200x and divide every message count and time. XP needed stays the same.</p>
-        </div>
-        <div aria-live="polite">
-          <p class="err" id="perr" hidden>Set a target level higher than your current level.</p>
-          <dl class="res" id="pres">
-            <div><dt>XP needed</dt><dd id="o-xp" class="pk-b"></dd></div>
-            <div><dt>Messages</dt><dd id="o-msg"></dd></div>
-            <div><dt>Chat time</dt><dd id="o-chat" class="pk-c"></dd></div>
-            <div><dt>Voice time</dt><dd id="o-voice" class="pk-x"></dd></div>
-          </dl>
-          <p class="state" id="o-state"></p>
-          <ul class="chips" id="o-chips" aria-label="Perks unlocked on the way"></ul>
-        </div>
-      </div>
-      <p class="hint" style="margin-top:12px">Estimates use the middle of each range: 35 XP per message and 20 XP per voice minute, with one XP message every cooldown, nonstop.</p>
-    </section>
+<div class="wrap">
+<section id="planner"><header class="sh"><h2><span>//</span>Plan Your Climb</h2><p class="kick">Pick a start and a target level</p></header>
+<div class="planner"><div class="fields">
+<div><label class="l" for="from">Current level</label><input id="from" type="number" inputmode="numeric" min="0" max="799" value="0"></div>
+<div><label class="l" for="to">Target level</label><input id="to" type="number" inputmode="numeric" min="1" max="800" value="100"></div>
+<div class="pre" id="pre" aria-label="Quick targets"></div>
+<div><label class="l" for="ev">XP event multiplier</label><select id="ev"></select></div>
+<p class="hint">Staff events run 1x to 200x and divide every message count and time. XP needed stays the same.</p></div>
+<div aria-live="polite"><p class="err" id="perr" hidden>Set a target level higher than your current level.</p>
+<div id="pbody"><dl class="res"><div><dt>XP needed</dt><dd id="o-xp" class="pb"></dd></div><div><dt>Messages</dt><dd id="o-msg"></dd></div><div><dt>Chat time</dt><dd id="o-chat" class="pc"></dd></div><div><dt>Voice time</dt><dd id="o-voice" class="px"></dd></div></dl>
+<div class="eta"><label for="hpd">I chat / voice</label><input id="hpd" type="number" min="0.25" max="24" step="0.25" value="2"><label for="hpd">hours a day &rarr;</label><span>Chat <b id="e-chat"></b></span><span>Voice <b id="e-voice"></b></span></div>
+<div class="bar" aria-hidden="true"><i id="bar"></i></div>
+<p class="state" id="o-state"></p><ul class="chips" id="o-chips" aria-label="Perks unlocked on the way"></ul>
+<div class="cta" style="margin-top:18px"><button class="btn alt" id="share" type="button">Copy link to this plan</button></div></div></div></div>
+<p class="hint" style="margin-top:12px">Estimates use the middle of each range: 35 XP per message, 20 XP per voice minute, one XP message every cooldown, nonstop.</p></section>
 
-    <section id="perks">
-      <header class="sh"><h2><span>//</span>Perk Tiers</h2><p class="kick">Level boosts &amp; message cooldowns</p></header>
-      <p class="intro">Hit a milestone and the perk applies to every level you earn after it. XP boosts multiply what you earn; cooldowns shrink the wait between XP-earning messages.</p>
-      <div class="two">
-        <div class="tw"><table class="w"><thead><tr><th>From lvl</th><th>XP boost</th><th>Perk</th></tr></thead><tbody id="t-boost"></tbody></table></div>
-        <div class="tw cy"><table><thead><tr><th>From lvl</th><th>Cooldown</th><th>Perk</th></tr></thead><tbody id="t-cool"></tbody></table></div>
-      </div>
-      <div class="callout"><h3>How the math works</h3><p>XP to next level = <code>INT(120 + 8&middot;L + 0.01&middot;L&sup2;)</code>. Chat time assumes one XP message every cooldown, nonstop, averaging 25&ndash;45 XP per message. Voice time assumes 15&ndash;25 XP per minute. Event multiplier: 1x (staff events run 1x&ndash;200x and divide every count and time).</p></div>
-    </section>
+<section id="perks"><header class="sh"><h2><span>//</span>Perk Tiers</h2><p class="kick">Level boosts &amp; message cooldowns</p></header>
+<p class="intro">Hit a milestone and the perk applies to every level you earn after it. Boosts multiply what you earn; cooldowns shrink the wait between XP-earning messages.</p>
+<div class="two"><div class="tw"><table><thead><tr><th>From lvl</th><th>XP boost</th><th>Perk</th></tr></thead><tbody id="t-boost"></tbody></table></div>
+<div class="tw cy"><table><thead><tr><th>From lvl</th><th>Cooldown</th><th>Perk</th></tr></thead><tbody id="t-cool"></tbody></table></div></div>
+<div class="callout"><h3>How the math works</h3><p>XP to next level = <code>INT(120 + 8&middot;L + 0.01&middot;L&sup2;)</code>. Chat time assumes one XP message every cooldown, 25&ndash;45 XP each. Voice assumes 15&ndash;25 XP per minute.</p></div></section>
 
-    <section id="xp">
-      <header class="sh"><h2><span>//</span>How XP Works</h2><p class="kick">Earning, boosts &amp; events</p></header>
-      <dl class="how" style="margin:0">
-        <div><dt>Messages</dt><dd>25&ndash;45 XP each, one XP message per cooldown (60s at start, down to 15s at level 400). Messages under 4 characters do not count unless they have an attachment or sticker.</dd></div>
-        <div><dt>Voice</dt><dd>15&ndash;25 XP per minute in a voice channel. Muted, deafened or alone all still count. The AFK channel does not.</dd></div>
-        <div><dt>AFK mode</dt><dd><code>/afk</code> earns 10&ndash;20 XP per minute even while offline or out of voice. Run it again to turn it off.</dd></div>
-        <div><dt>XP boosts</dt><dd>Permanent multiplier from +5% (level 10) up to +100% (level 800). Applies to message, voice and AFK XP.</dd></div>
-        <div><dt>XP events</dt><dd>Staff can run timed events from 1x up to 200x. They stack with your level boost.</dd></div>
-        <div><dt>No-XP channels</dt><dd>Staff can switch any text or voice channel to earn no XP.</dd></div>
-        <div><dt>Level curve</dt><dd>XP to next level = <code>INT(120 + 8&middot;L + 0.01&middot;L&sup2;)</code>. Level 800 needs 4,355,944 total XP.</dd></div>
-      </dl>
-    </section>
+<section id="xp"><header class="sh"><h2><span>//</span>How XP Works</h2><p class="kick">Earning, boosts &amp; events</p></header>
+<dl class="how">
+<div><dt>Messages</dt><dd>25&ndash;45 XP each, one XP message per cooldown (60s at start, down to 15s at level 400). Messages under 4 characters do not count unless they have an attachment or sticker.</dd></div>
+<div><dt>Voice</dt><dd>15&ndash;25 XP per minute in a voice channel. Muted, deafened or alone all still count. The AFK channel does not.</dd></div>
+<div><dt>AFK mode</dt><dd><code>/afk</code> earns 10&ndash;20 XP per minute even while offline or out of voice. Run it again to turn it off.</dd></div>
+<div><dt>XP boosts</dt><dd>Permanent multiplier from +5% (level 10) up to +100% (level 800). Applies to message, voice and AFK XP.</dd></div>
+<div><dt>XP events</dt><dd>Staff can run timed events from 1x up to 200x. They stack with your level boost.</dd></div>
+<div><dt>No-XP channels</dt><dd>Staff can switch any text or voice channel to earn no XP.</dd></div>
+<div><dt>Level curve</dt><dd>XP to next level = <code>INT(120 + 8&middot;L + 0.01&middot;L&sup2;)</code>. Level 800 needs 4,355,944 total XP.</dd></div></dl></section>
 
-    <section id="commands">
-      <header class="sh"><h2><span>//</span>Commands</h2><p class="kick">Member &amp; staff</p></header>
-      <div class="two">
-        <div class="tw cy"><table><thead><tr><th colspan="2">Member commands</th></tr></thead><tbody id="t-member"></tbody></table></div>
-        <div class="tw"><table><thead><tr><th colspan="2">Staff commands</th></tr></thead><tbody id="t-staff"></tbody></table></div>
-      </div>
-    </section>
+<section id="commands"><header class="sh"><h2><span>//</span>Commands</h2><p class="kick">Member &amp; staff</p></header>
+<div class="two"><div class="tw cy"><table><thead><tr><th colspan="2">Member commands</th></tr></thead><tbody id="t-member"></tbody></table></div>
+<div class="tw"><table><thead><tr><th colspan="2">Staff commands</th></tr></thead><tbody id="t-staff"></tbody></table></div></div></section>
 
-    <section id="ranks">
-      <header class="sh"><h2><span>//</span>Leonida Ranks</h2><p class="kick">24 cosmetic ranks, Tourist to Vice City Eternal</p></header>
-      <p class="intro">Ranks show on cards and level-up embeds. They are never created as Discord roles. Totals are cumulative from level 0.</p>
-      <div class="tw"><table class="rk" style="min-width:860px"><thead><tr><th>Lvl</th><th>Rank</th><th class="n">Total XP</th><th class="n">Chat time</th><th class="n">Voice time</th><th>Vibe</th></tr></thead><tbody id="t-rank"></tbody></table></div>
-    </section>
+<section id="ranks"><header class="sh"><h2><span>//</span>Leonida Ranks</h2><p class="kick">24 cosmetic ranks, Tourist to Vice City Eternal</p></header>
+<p class="intro">Ranks show on cards and level-up embeds. They are never created as Discord roles. Totals are cumulative from level 0. Tap a rank to plan a climb to it.</p>
+<div class="tw"><table class="rk" style="min-width:860px"><thead><tr><th>Lvl</th><th>Rank</th><th class="n">Total XP</th><th class="n">Chat time</th><th class="n">Voice time</th><th>Vibe</th></tr></thead><tbody id="t-rank"></tbody></table></div></section>
 
-    <section id="unlocks">
-      <header class="sh"><h2><span>//</span>Level Unlocks</h2><p class="kick">Card themes, frames, titles &amp; badges</p></header>
-      <p class="intro">Equip any unlocked item with <code>/customize</code>, or choose Auto to always use your best one. Level 10 also unlocks custom card backgrounds with <code>/background</code>.</p>
-      <div class="ul">
-        <div class="tw"><table><thead><tr><th colspan="2">Card themes</th></tr></thead><tbody id="u-themes" style="--c:var(--pink)"></tbody></table></div>
-        <div class="tw cy"><table><thead><tr><th colspan="2">Avatar frames</th></tr></thead><tbody id="u-frames" style="--c:var(--cyan)"></tbody></table></div>
-        <div class="tw or"><table><thead><tr><th colspan="2">Titles</th></tr></thead><tbody id="u-titles" style="--c:var(--orange)"></tbody></table></div>
-        <div class="tw vi"><table><thead><tr><th colspan="2">Badges</th></tr></thead><tbody id="u-badges" style="--c:var(--violet)"></tbody></table></div>
-      </div>
-    </section>
+<section id="unlocks"><header class="sh"><h2><span>//</span>Level Unlocks</h2><p class="kick">Card themes, frames, titles &amp; badges</p></header>
+<p class="intro">Equip any unlocked item with <code>/customize</code>, or choose Auto to always use your best one. Level 10 also unlocks custom card backgrounds with <code>/background</code>.</p>
+<div class="ul"><div class="tw"><table><thead><tr><th colspan="2">Card themes</th></tr></thead><tbody id="u-th" style="--c:var(--pink)"></tbody></table></div>
+<div class="tw cy"><table><thead><tr><th colspan="2">Avatar frames</th></tr></thead><tbody id="u-fr" style="--c:var(--cyan)"></tbody></table></div>
+<div class="tw or"><table><thead><tr><th colspan="2">Titles</th></tr></thead><tbody id="u-ti" style="--c:var(--orange)"></tbody></table></div>
+<div class="tw vi"><table><thead><tr><th colspan="2">Badges</th></tr></thead><tbody id="u-ba" style="--c:var(--violet)"></tbody></table></div></div></section>
 
-    <section id="milestones">
-      <header class="sh"><h2><span>//</span>Milestone Run</h2><p class="kick">Total cost to reach each perk level</p></header>
-      <p class="intro">Cumulative totals from level 0. Pink rows unlock an XP boost, cyan rows unlock a faster cooldown, orange rows unlock both.</p>
-      <div class="tw"><table style="min-width:720px"><thead><tr><th>Lvl</th><th>Perk unlocked</th><th class="n">Total XP</th><th class="n">Total msgs</th><th class="n">Chat time</th><th class="n">Voice time</th></tr></thead><tbody id="t-mile"></tbody></table></div>
-    </section>
+<section id="milestones"><header class="sh"><h2><span>//</span>Milestone Run</h2><p class="kick">Total cost to reach each perk level</p></header>
+<p class="intro">Cumulative totals from level 0. Pink rows unlock an XP boost, cyan a faster cooldown, orange both.</p>
+<div class="tw"><table style="min-width:720px"><thead><tr><th>Lvl</th><th>Perk unlocked</th><th class="n">Total XP</th><th class="n">Total msgs</th><th class="n">Chat time</th><th class="n">Voice time</th></tr></thead><tbody id="t-mile"></tbody></table></div></section>
 
-    <section id="roadmap">
-      <header class="sh"><h2><span>//</span>The Full Roadmap</h2><p class="kick">All 800 levels, one row each</p></header>
-      <p class="intro">Pink-tinted rows mark a level where a perk unlocks. &ldquo;XP / lvl&rdquo; is the cost of that single level; the rest are running totals.</p>
-      <div class="tools">
-        <div class="f"><label class="l" for="jump">Jump to level</label><div class="row"><input id="jump" type="number" inputmode="numeric" min="1" max="800" placeholder="1&ndash;800"><button class="btn alt" id="go" type="button">Go</button></div></div>
-        <label class="chk" for="perkonly"><input id="perkonly" type="checkbox"> Perk levels only</label>
-        <span class="count" id="count"></span>
-      </div>
-      <div class="big" id="bigwrap" tabindex="0" aria-label="All 800 levels">
-        <table><thead><tr><th>Lvl</th><th class="n">XP / lvl</th><th class="n">Total XP</th><th class="n">Boost</th><th class="n">CD</th><th class="n">Total msgs</th><th class="n">Chat time</th><th class="n">Voice time</th></tr></thead><tbody id="t-all"></tbody></table>
-      </div>
-    </section>
-  </div>
-</main>
-
-<footer>
-  <div class="wrap">
-    <p class="big-line">Welcome to Vice City. Level up.</p>
-    <p>ViceGuard XP Roadmap &middot; Levels 1&ndash;800. Level 800 needs 4,355,944 total XP.</p>
-  </div>
-</footer>
+<section id="roadmap"><header class="sh"><h2><span>//</span>The Full Roadmap</h2><p class="kick">All 800 levels, one row each</p></header>
+<p class="intro">Pink rows mark a level where a perk unlocks. &ldquo;XP / lvl&rdquo; is the cost of that single level; the rest are running totals.</p>
+<div class="tools">
+<div><label class="l" for="jump">Jump to level</label><div class="row"><input id="jump" type="number" inputmode="numeric" min="1" max="800" placeholder="1&ndash;800"><button class="btn alt" id="go" type="button">Go</button></div></div>
+<div><label class="l" for="rs">Find a rank</label><input id="rs" type="search" list="rl" placeholder="e.g. Kingpin"><datalist id="rl"></datalist></div>
+<label class="chk"><input id="perkonly" type="checkbox"> Perk levels only</label><span class="count" id="count"></span></div>
+<div class="big" id="bigwrap" tabindex="0" aria-label="All 800 levels"><table><thead><tr><th>Lvl</th><th class="n">XP / lvl</th><th class="n">Total XP</th><th class="n">Boost</th><th class="n">CD</th><th class="n">Total msgs</th><th class="n">Chat time</th><th class="n">Voice time</th></tr></thead><tbody id="t-all"></tbody></table></div></section>
+</div></main>
+<footer><div class="wrap"><p class="bl">Welcome to Vice City. Level up.</p><p>ViceGuard XP Roadmap &middot; Levels 1&ndash;800.</p></div></footer>
+<button id="top-btn" type="button" aria-label="Back to top">&uarr; Top</button>
 
 <script>
-(function () {
-  var BOOSTS = [[10,1.05,"Street Hustle"],[25,1.1,"Night Shift"],[40,1.15,"Gator Money"],[60,1.2,"Vice Dividend"],[80,1.25,"Kingpin's Cut"],[100,1.3,"Leonida Legend Bonus"],[150,1.35,"Swamp Money"],[200,1.4,"Harbor Cut"],[300,1.5,"Syndicate Skim"],[400,1.6,"Warlord's Tax"],[500,1.7,"Dynasty Dividend"],[600,1.8,"Mogul Margin"],[700,1.9,"Mythic Mint"],[800,2,"Eternal Vice Bonus"]];
-  var COOLS = [[0,60,"Cruising Speed"],[30,50,"Fast Lane"],[55,40,"Pedal to the Metal"],[85,30,"Nitrous"],[150,25,"Overdrive"],[250,20,"Afterburner"],[400,15,"Warp Lane"]];
-  var RANKS = [
-    [0,"Tourist","#c9c6dd","Fresh off the plane. Welcome to Leonida."],
-    [5,"Beach Bum","#35e0ff","Sun, sand and slow mornings on Ocean Drive."],
-    [10,"Hustler","#ff9a3c","Always working an angle between Vice City and the Keys."],
-    [20,"Wheelman","#ff2fa0","Fast cars, faster getaways."],
-    [30,"Street Legend","#b57bff","Every neon-lit block knows the name."],
-    [45,"Kingpin","#ffd24a","Running Leonida from the penthouse down."],
-    [60,"Vice Royalty","#ff7ac0","Old money, new neon."],
-    [80,"Leonida Legend","#6ef3d6","Bigger than the whole state. Gator-approved."],
-    [100,"Keys Smuggler","#19f0b0","Moving cargo between the Keys on moonless nights."],
-    [130,"Swamp Runner","#7dff5c","Airboats, back roads, and nobody follows you into gator country."],
-    [165,"Everglades Outlaw","#4fe08f","Wanted in three counties, welcome in the swamp."],
-    [200,"Harbor Don","#4da3ff","Every crate through the docks pays its respects."],
-    [240,"Gator Baron","#7dfc8a","Owns the swamp, the airboats and the rumors."],
-    [285,"Neon Outlaw","#ff3fb0","Lit up like a Vice City billboard."],
-    [330,"Sunset Syndicate","#ff9250","The big deals get made right as the sun goes down."],
-    [380,"Grassrivers Warlord","#a6e84a","Rules the river towns where the law gave up."],
-    [435,"Ambrosia Tycoon","#ffc83a","Sweet money from the sugar fields, no questions asked."],
-    [490,"Vice Dynasty","#ff5c9a","A bloodline built on neon and nerve."],
-    [550,"Moonlit Mogul","#b9a8ff","Closes deals after midnight on the penthouse balcony."],
-    [610,"Leonida Overlord","#ff5a5a","Nothing moves without a nod."],
-    [670,"Crown of the Keys","#20e0ff","Rules the whole chain from shoreline to horizon."],
-    [730,"Mythic Gator","#7ff5d0","A legend the swamp whispers about after dark."],
-    [780,"Immortal of Leonida","#ffa43c","Stories fade. This one never will."],
-    [800,"Vice City Eternal","#ffe9a8","The final rank. The whole skyline was always yours."]
-  ];
-  var MEMBER = [["/level","Your level card (private)"],["/profile","Full character card: badges, title, stats (public)"],["/rank","Your server rank and who is nearby"],["/leaderboard","Top members, paged"],["/perks","Browse every perk and rank, with what is next"],["/customize","Equip a title, theme, frame or badge"],["/background","Use your own card image (level 10+)"],["/afk","Toggle AFK XP"],["/pings","Level-up pings on or off"],["/help","How leveling works"]];
-  var STAFF = [["/levelsetup announce","Where level-ups post"],["/levelsetup noxp","Toggle a no-XP channel"],["/levelsetup rolereward","Bonus role at a level"],["/levelsetup event","Start, check or stop an XP event"],["/levelsetup bgwhitelist","Who can use custom backgrounds"],["/levelsetup bgremove","Remove a member background"],["/xp add | remove | reset","Adjust a member's XP"],["/setlevel","Set a member to an exact level"],["/pingedit","Set pings for a member"],["/backgroundedit","Set a member's background (any level)"],["/rule add | edit | delete | move | list | setup | copy | import | refresh | settings","Rules bot: publish and manage the server rules"]];
-  var THEMES = [[0,"Vice Starter"],[10,"Neon Drive"],[20,"Ocean Drive"],[35,"Leonida Keys"],[50,"Golden Hour"],[75,"Vice Royalty"],[150,"Gator Swamp"],[300,"Chrome Overdrive"],[450,"Penthouse Gold"],[650,"Eternal Vice"],[800,"Leonida Immortal"]];
-  var FRAMES = [[0,"Classic"],[5,"Neon Pink"],[15,"Cyan Pulse"],[25,"Sunset Fade"],[40,"Gold Plated"],[60,"Holo Foil"],[100,"Emerald Gator"],[200,"Inferno"],[350,"Platinum"],[500,"Mythic Aurora"],[800,"Eternal Spectrum"]];
-  var TITLES = [[0,"Fresh Off the Plane"],[5,"Sunshine Local"],[10,"Small-Time Hustler"],[15,"Night Driver"],[20,"Getaway Driver"],[25,"Neon Ghost"],[30,"Block Royalty"],[40,"Gator Wrangler"],[50,"Boss of Leonida"],[75,"Crown of Vice"],[100,"The Legend of Leonida"],[125,"Swamp Whisperer"],[150,"Everglades Outlaw"],[200,"Don of the Docks"],[250,"Airboat Ace"],[300,"Neon Syndicate Boss"],[400,"Warlord of the Rivers"],[500,"Heir to the Dynasty"],[600,"Midnight Mogul"],[700,"The Mythic Gator"],[800,"Eternal Vice"]];
-  var BADGES = [[0,"First Steps"],[5,"Local"],[10,"Sunset Chaser"],[20,"Neon Nights"],[30,"Flamingo"],[40,"Gator Country"],[50,"Kingpin"],[75,"Vice Royalty"],[100,"Leonida Legend"],[150,"Keys Runner"],[200,"Everglades Outlaw"],[300,"Sunset Syndicate"],[450,"Vice Dynasty"],[600,"Mythic Gator"],[800,"Immortal"],["1,000 msgs","Chatterbox"],["25 h voice","Night Owl"]];
-  var MILES = [1,5,10,20,25,30,40,50,55,60,80,85,100,120,150,175,200,250,300,350,400,500,600,700,800];
-
-  function $(id) { return document.getElementById(id); }
-  function nf(n) { return n.toLocaleString("en-US"); }
-  function fmt(sec) {
-    var s = Math.round(sec), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), x = s % 60;
-    if (d > 0) return d + "d " + h + "h " + m + "m";
-    if (h > 0) return h + "h " + m + "m";
-    return m + "m " + x + "s";
-  }
-  function boostAt(l) { var v = 1; BOOSTS.forEach(function (b) { if (l >= b[0]) v = b[1]; }); return v; }
-  function cdAt(l) { var v = 60; COOLS.forEach(function (c) { if (l >= c[0]) v = c[1]; }); return v; }
-  function rankAt(l) { var r = RANKS[0]; RANKS.forEach(function (x) { if (l >= x[0]) r = x; }); return r; }
-
-  // Level curve: reaching level n costs INT(120 + 8*(n-1) + 0.01*(n-1)^2).
-  // Boost and cooldown for that level come from the milestones reached before it.
-  var R = [{ lvl: 0, cost: 0, total: 0, mraw: 0, msgs: 0, chat: 0, voice: 0, boost: 1, cd: 60 }];
-  (function () {
-    var tot = 0, mr = 0, ch = 0, vo = 0;
-    for (var n = 1; n <= 800; n++) {
-      var L = n - 1, cost = Math.floor((12000 + 800 * L + L * L) / 100), b = boostAt(L), c = cdAt(L);
-      tot += cost;
-      var m = cost / (35 * b);
-      mr += m; ch += m * c; vo += cost / (20 * b) * 60;
-      R.push({ lvl: n, cost: cost, total: tot, mraw: mr, msgs: Math.ceil(mr - 1e-9), chat: ch, voice: vo, boost: b, cd: c });
-    }
-  })();
-
-  var perkLevels = {};
-  BOOSTS.forEach(function (b) { perkLevels[b[0]] = true; });
-  COOLS.forEach(function (c) { if (c[0] > 0) perkLevels[c[0]] = true; });
-
-  // perk tiers
-  $("t-boost").innerHTML = BOOSTS.map(function (b) { return '<tr><td class="lv">' + b[0] + '</td><td class="mono-b pk-b">' + b[1] + 'x</td><td>' + b[2] + '</td></tr>'; }).join("");
-  $("t-cool").innerHTML = COOLS.map(function (c) { return '<tr><td class="lv">' + c[0] + '</td><td class="mono-b pk-c">' + c[1] + 's</td><td>' + c[2] + '</td></tr>'; }).join("");
-
-  // commands
-  function cmdRows(list) { return list.map(function (c) { return '<tr><td class="cmd' + (c[0].length > 24 ? ' wrap-cmd' : '') + '">' + c[0] + '</td><td>' + c[1] + '</td></tr>'; }).join(""); }
-  $("t-member").innerHTML = cmdRows(MEMBER);
-  $("t-staff").innerHTML = cmdRows(STAFF);
-
-  // ranks
-  $("t-rank").innerHTML = RANKS.map(function (r) {
-    var x = R[r[0]];
-    return '<tr style="--c:' + r[2] + '"><td class="lv">' + r[0] + '</td><td class="name">' + r[1] + '</td><td class="n">' + nf(x.total) + '</td><td class="n">' + fmt(x.chat) + '</td><td class="n">' + fmt(x.voice) + '</td><td class="vibe">' + r[3] + '</td></tr>';
-  }).join("");
-
-  // unlocks
-  function ulRows(list) { return list.map(function (u) { return '<tr><td>' + u[0] + '</td><td>' + u[1] + '</td></tr>'; }).join(""); }
-  $("u-themes").innerHTML = ulRows(THEMES);
-  $("u-frames").innerHTML = ulRows(FRAMES);
-  $("u-titles").innerHTML = ulRows(TITLES);
-  $("u-badges").innerHTML = ulRows(BADGES);
-
-  // milestones
-  $("t-mile").innerHTML = MILES.map(function (l) {
-    var x = R[l], parts = [], hasB = false, hasC = false;
-    BOOSTS.forEach(function (b) { if (b[0] === l) { parts.push(b[2] + " " + b[1] + "x"); hasB = true; } });
-    COOLS.forEach(function (c) { if (c[0] === l && l > 0) { parts.push(c[2] + " " + c[1] + "s"); hasC = true; } });
-    var cls = hasB && hasC ? "pk-x" : hasB ? "pk-b" : hasC ? "pk-c" : "";
-    return '<tr><td class="lv ' + cls + '">' + l + '</td><td class="' + cls + '">' + (parts.length ? parts.join(" + ") : "&mdash;") + '</td><td class="n">' + nf(x.total) + '</td><td class="n">' + nf(x.msgs) + '</td><td class="n">' + fmt(x.chat) + '</td><td class="n">' + fmt(x.voice) + '</td></tr>';
-  }).join("");
-
-  // full roadmap
-  var rows = [];
-  for (var n = 1; n <= 800; n++) {
-    var x = R[n];
-    rows.push('<tr id="lv' + n + '"' + (perkLevels[n] ? ' class="pk"' : '') + '><td class="lv">' + n + '</td><td class="n">' + nf(x.cost) + '</td><td class="n">' + nf(x.total) + '</td><td class="n boost">' + x.boost + 'x</td><td class="n cd">' + x.cd + 's</td><td class="n">' + nf(x.msgs) + '</td><td class="n">' + fmt(x.chat) + '</td><td class="n">' + fmt(x.voice) + '</td></tr>');
-  }
-  $("t-all").innerHTML = rows.join("");
-
-  var wrap = $("bigwrap"), perkOnly = $("perkonly");
-  function updateCount() {
-    var shown = perkOnly.checked ? Object.keys(perkLevels).length : 800;
-    $("count").textContent = "Showing " + shown + " of 800 levels";
-  }
-  perkOnly.addEventListener("change", updateCount);
-  updateCount();
-  var hitTimer = null;
-  function jump() {
-    var v = parseInt($("jump").value, 10);
-    if (isNaN(v)) return;
-    v = Math.max(1, Math.min(800, v));
-    $("jump").value = v;
-    if (perkOnly.checked && !perkLevels[v]) { perkOnly.checked = false; updateCount(); }
-    var el = $("lv" + v);
-    var prev = wrap.querySelector("tr.hit");
-    if (prev) prev.classList.remove("hit");
-    el.classList.add("hit");
-    var head = wrap.querySelector("thead").offsetHeight;
-    var top = el.getBoundingClientRect().top - wrap.getBoundingClientRect().top + wrap.scrollTop - head;
-    wrap.scrollTo({ top: Math.max(0, top - 40) });
-    clearTimeout(hitTimer);
-    hitTimer = setTimeout(function () { el.classList.remove("hit"); }, 4000);
-  }
-  $("go").addEventListener("click", jump);
-  $("jump").addEventListener("keydown", function (e) { if (e.key === "Enter") jump(); });
-
-  // planner
-  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-  function plan() {
-    var f = parseInt($("from").value, 10), t = parseInt($("to").value, 10), ev = parseFloat($("ev").value) || 1;
-    if (isNaN(f)) f = 0;
-    if (isNaN(t)) t = 100;
-    f = clamp(f, 0, 799); t = clamp(t, 1, 800);
-    var bad = t <= f;
-    $("perr").hidden = !bad;
-    $("pres").hidden = bad;
-    $("o-state").hidden = bad;
-    $("o-chips").hidden = bad;
-    if (bad) return;
-    var a = R[f], b = R[t];
-    $("o-xp").textContent = nf(b.total - a.total);
-    $("o-msg").textContent = nf(Math.ceil((b.mraw - a.mraw) / ev - 1e-9));
-    $("o-chat").textContent = fmt((b.chat - a.chat) / ev);
-    $("o-voice").textContent = fmt((b.voice - a.voice) / ev);
-    var rk = rankAt(t);
-    $("o-state").innerHTML = 'At level <b>' + t + '</b>: <b>' + boostAt(t) + 'x</b> XP boost, <b>' + cdAt(t) + 's</b> cooldown, rank <b style="color:' + rk[2] + '">' + rk[1] + '</b>.';
-    var chips = [];
-    BOOSTS.forEach(function (p) { if (p[0] > f && p[0] <= t) chips.push([p[0], "b", "Lv " + p[0] + " &middot; " + p[2] + " " + p[1] + "x"]); });
-    COOLS.forEach(function (p) { if (p[0] > f && p[0] <= t && p[0] > 0) chips.push([p[0], "c", "Lv " + p[0] + " &middot; " + p[2] + " " + p[1] + "s"]); });
-    chips.sort(function (x, y) { return x[0] - y[0]; });
-    $("o-chips").innerHTML = chips.length ? chips.map(function (c) { return '<li class="' + c[1] + '">' + c[2] + '</li>'; }).join("") : '<li style="color:var(--dim);border-color:var(--line)">No new perks in this range</li>';
-  }
-  ["from", "to"].forEach(function (id) {
-    $(id).addEventListener("input", plan);
-    $(id).addEventListener("change", function () {
-      var v = parseInt(this.value, 10);
-      if (!isNaN(v)) this.value = id === "from" ? clamp(v, 0, 799) : clamp(v, 1, 800);
-      plan();
-    });
-  });
-  $("ev").addEventListener("change", plan);
-  plan();
+(function(){
+var BOOSTS=[[10,1.05,"Street Hustle"],[25,1.1,"Night Shift"],[40,1.15,"Gator Money"],[60,1.2,"Vice Dividend"],[80,1.25,"Kingpin's Cut"],[100,1.3,"Leonida Legend Bonus"],[150,1.35,"Swamp Money"],[200,1.4,"Harbor Cut"],[300,1.5,"Syndicate Skim"],[400,1.6,"Warlord's Tax"],[500,1.7,"Dynasty Dividend"],[600,1.8,"Mogul Margin"],[700,1.9,"Mythic Mint"],[800,2,"Eternal Vice Bonus"]];
+var COOLS=[[0,60,"Cruising Speed"],[30,50,"Fast Lane"],[55,40,"Pedal to the Metal"],[85,30,"Nitrous"],[150,25,"Overdrive"],[250,20,"Afterburner"],[400,15,"Warp Lane"]];
+var RANKS=[[0,"Tourist","#c9c6dd","Fresh off the plane. Welcome to Leonida."],[5,"Beach Bum","#35e0ff","Sun, sand and slow mornings on Ocean Drive."],[10,"Hustler","#ff9a3c","Always working an angle between Vice City and the Keys."],[20,"Wheelman","#ff2fa0","Fast cars, faster getaways."],[30,"Street Legend","#b57bff","Every neon-lit block knows the name."],[45,"Kingpin","#ffd24a","Running Leonida from the penthouse down."],[60,"Vice Royalty","#ff7ac0","Old money, new neon."],[80,"Leonida Legend","#6ef3d6","Bigger than the whole state. Gator-approved."],[100,"Keys Smuggler","#19f0b0","Moving cargo between the Keys on moonless nights."],[130,"Swamp Runner","#7dff5c","Airboats, back roads, and nobody follows you into gator country."],[165,"Everglades Outlaw","#4fe08f","Wanted in three counties, welcome in the swamp."],[200,"Harbor Don","#4da3ff","Every crate through the docks pays its respects."],[240,"Gator Baron","#7dfc8a","Owns the swamp, the airboats and the rumors."],[285,"Neon Outlaw","#ff3fb0","Lit up like a Vice City billboard."],[330,"Sunset Syndicate","#ff9250","The big deals get made right as the sun goes down."],[380,"Grassrivers Warlord","#a6e84a","Rules the river towns where the law gave up."],[435,"Ambrosia Tycoon","#ffc83a","Sweet money from the sugar fields, no questions asked."],[490,"Vice Dynasty","#ff5c9a","A bloodline built on neon and nerve."],[550,"Moonlit Mogul","#b9a8ff","Closes deals after midnight on the penthouse balcony."],[610,"Leonida Overlord","#ff5a5a","Nothing moves without a nod."],[670,"Crown of the Keys","#20e0ff","Rules the whole chain from shoreline to horizon."],[730,"Mythic Gator","#7ff5d0","A legend the swamp whispers about after dark."],[780,"Immortal of Leonida","#ffa43c","Stories fade. This one never will."],[800,"Vice City Eternal","#ffe9a8","The final rank. The whole skyline was always yours."]];
+var MEMBER=[["/level","Your level card (private)"],["/profile","Full character card: badges, title, stats (public)"],["/rank","Your server rank and who is nearby"],["/leaderboard","Top members, paged"],["/perks","Browse every perk and rank, with what is next"],["/customize","Equip a title, theme, frame or badge"],["/background","Use your own card image (level 10+)"],["/afk","Toggle AFK XP"],["/pings","Level-up pings on or off"],["/help","How leveling works"]];
+var STAFF=[["/levelsetup announce","Where level-ups post"],["/levelsetup noxp","Toggle a no-XP channel"],["/levelsetup rolereward","Bonus role at a level"],["/levelsetup event","Start, check or stop an XP event"],["/levelsetup bgwhitelist","Who can use custom backgrounds"],["/levelsetup bgremove","Remove a member background"],["/xp add | remove | reset","Adjust a member's XP"],["/setlevel","Set a member to an exact level"],["/pingedit","Set pings for a member"],["/backgroundedit","Set a member's background (any level)"],["/rule add | edit | delete | move | list | setup | copy | import | refresh | settings","Rules bot: publish and manage the server rules"]];
+var THEMES=[[0,"Vice Starter"],[10,"Neon Drive"],[20,"Ocean Drive"],[35,"Leonida Keys"],[50,"Golden Hour"],[75,"Vice Royalty"],[150,"Gator Swamp"],[300,"Chrome Overdrive"],[450,"Penthouse Gold"],[650,"Eternal Vice"],[800,"Leonida Immortal"]];
+var FRAMES=[[0,"Classic"],[5,"Neon Pink"],[15,"Cyan Pulse"],[25,"Sunset Fade"],[40,"Gold Plated"],[60,"Holo Foil"],[100,"Emerald Gator"],[200,"Inferno"],[350,"Platinum"],[500,"Mythic Aurora"],[800,"Eternal Spectrum"]];
+var TITLES=[[0,"Fresh Off the Plane"],[5,"Sunshine Local"],[10,"Small-Time Hustler"],[15,"Night Driver"],[20,"Getaway Driver"],[25,"Neon Ghost"],[30,"Block Royalty"],[40,"Gator Wrangler"],[50,"Boss of Leonida"],[75,"Crown of Vice"],[100,"The Legend of Leonida"],[125,"Swamp Whisperer"],[150,"Everglades Outlaw"],[200,"Don of the Docks"],[250,"Airboat Ace"],[300,"Neon Syndicate Boss"],[400,"Warlord of the Rivers"],[500,"Heir to the Dynasty"],[600,"Midnight Mogul"],[700,"The Mythic Gator"],[800,"Eternal Vice"]];
+var BADGES=[[0,"First Steps"],[5,"Local"],[10,"Sunset Chaser"],[20,"Neon Nights"],[30,"Flamingo"],[40,"Gator Country"],[50,"Kingpin"],[75,"Vice Royalty"],[100,"Leonida Legend"],[150,"Keys Runner"],[200,"Everglades Outlaw"],[300,"Sunset Syndicate"],[450,"Vice Dynasty"],[600,"Mythic Gator"],[800,"Immortal"],["1,000 msgs","Chatterbox"],["25 h voice","Night Owl"]];
+var MILES=[1,5,10,20,25,30,40,50,55,60,80,85,100,120,150,175,200,250,300,350,400,500,600,700,800];
+var EVS=[1,2,3,5,10,25,50,100,200];
+var $=function(i){return document.getElementById(i)};
+var nf=function(n){return n.toLocaleString("en-US")};
+function fmt(s){s=Math.round(s);var d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return d>0?d+"d "+h+"h "+m+"m":h>0?h+"h "+m+"m":m+"m "+s%60+"s"}
+function days(sec,hpd){var d=sec/3600/hpd;return d<1?"under a day":d<60?Math.ceil(d)+" days":(d/30.4).toFixed(1)+" months"}
+function at(list,l,def){var v=def;list.forEach(function(x){if(l>=x[0])v=x[1]});return v}
+var boostAt=function(l){return at(BOOSTS,l,1)},cdAt=function(l){return at(COOLS,l,60)};
+function rankAt(l){var r=RANKS[0];RANKS.forEach(function(x){if(l>=x[0])r=x});return r}
+var R=[{total:0,mraw:0,msgs:0,chat:0,voice:0}];
+(function(){var t=0,mr=0,ch=0,vo=0;for(var n=1;n<=800;n++){var L=n-1,cost=Math.floor((12000+800*L+L*L)/100),b=boostAt(L),c=cdAt(L);t+=cost;var m=cost/(35*b);mr+=m;ch+=m*c;vo+=cost/(20*b)*60;R.push({cost:cost,total:t,mraw:mr,msgs:Math.ceil(mr-1e-9),chat:ch,voice:vo,boost:b,cd:c})}})();
+var pk={};BOOSTS.forEach(function(b){pk[b[0]]=1});COOLS.forEach(function(c){if(c[0])pk[c[0]]=1});
+var x=R[800];$("h-xp").textContent=nf(x.total);$("h-m").textContent=nf(x.msgs);$("h-c").textContent=fmt(x.chat);$("h-v").textContent=fmt(x.voice);
+$("t-boost").innerHTML=BOOSTS.map(function(b){return'<tr><td class="lv">'+b[0]+'</td><td class="lv pb">'+b[1]+'x</td><td>'+b[2]+'</td></tr>'}).join("");
+$("t-cool").innerHTML=COOLS.map(function(c){return'<tr><td class="lv">'+c[0]+'</td><td class="lv pc">'+c[1]+'s</td><td>'+c[2]+'</td></tr>'}).join("");
+var cr=function(l){return l.map(function(c){return'<tr><td class="cmd">'+c[0]+'</td><td>'+c[1]+'</td></tr>'}).join("")};
+$("t-member").innerHTML=cr(MEMBER);$("t-staff").innerHTML=cr(STAFF);
+$("t-rank").innerHTML=RANKS.map(function(r){var y=R[r[0]];return'<tr style="--c:'+r[2]+'"><td class="lv">'+r[0]+'</td><td class="name">'+r[1]+'</td><td class="n">'+nf(y.total)+'</td><td class="n">'+fmt(y.chat)+'</td><td class="n">'+fmt(y.voice)+'</td><td class="vibe">'+r[3]+'</td></tr>'}).join("");
+var ur=function(l){return l.map(function(u){return'<tr><td>'+u[0]+'</td><td>'+u[1]+'</td></tr>'}).join("")};
+$("u-th").innerHTML=ur(THEMES);$("u-fr").innerHTML=ur(FRAMES);$("u-ti").innerHTML=ur(TITLES);$("u-ba").innerHTML=ur(BADGES);
+$("t-mile").innerHTML=MILES.map(function(l){var y=R[l],p=[],hb=0,hc=0;BOOSTS.forEach(function(b){if(b[0]===l){p.push(b[2]+" "+b[1]+"x");hb=1}});COOLS.forEach(function(c){if(c[0]===l&&l){p.push(c[2]+" "+c[1]+"s");hc=1}});var k=hb&&hc?"px":hb?"pb":hc?"pc":"";return'<tr><td class="lv '+k+'">'+l+'</td><td class="'+k+'">'+(p.join(" + ")||"&mdash;")+'</td><td class="n">'+nf(y.total)+'</td><td class="n">'+nf(y.msgs)+'</td><td class="n">'+fmt(y.chat)+'</td><td class="n">'+fmt(y.voice)+'</td></tr>'}).join("");
+var rows=[];for(var n=1;n<=800;n++){var y=R[n];rows.push('<tr id="lv'+n+'"'+(pk[n]?' class="pk"':'')+'><td class="lv">'+n+'</td><td class="n">'+nf(y.cost)+'</td><td class="n">'+nf(y.total)+'</td><td class="n boost">'+y.boost+'x</td><td class="n cd">'+y.cd+'s</td><td class="n">'+nf(y.msgs)+'</td><td class="n">'+fmt(y.chat)+'</td><td class="n">'+fmt(y.voice)+'</td></tr>')}
+$("t-all").innerHTML=rows.join("");
+$("rl").innerHTML=RANKS.map(function(r){return'<option value="'+r[1]+'">'}).join("");
+var wrap=$("bigwrap"),po=$("perkonly"),ht;
+function cnt(){$("count").textContent="Showing "+(po.checked?Object.keys(pk).length:800)+" of 800 levels"}
+po.addEventListener("change",function(){wrap.classList.toggle("po",po.checked);cnt()});cnt();
+function jump(v){if(isNaN(v))return;v=Math.max(1,Math.min(800,v));$("jump").value=v;if(po.checked&&!pk[v]){po.checked=false;wrap.classList.remove("po");cnt()}
+var el=$("lv"+v),pv=wrap.querySelector("tr.hit");if(pv)pv.classList.remove("hit");el.classList.add("hit");
+var top=el.getBoundingClientRect().top-wrap.getBoundingClientRect().top+wrap.scrollTop-wrap.querySelector("thead").offsetHeight;
+wrap.scrollTop=Math.max(0,top-40);clearTimeout(ht);ht=setTimeout(function(){el.classList.remove("hit")},4000)}
+$("go").addEventListener("click",function(){jump(parseInt($("jump").value,10))});
+$("jump").addEventListener("keydown",function(e){if(e.key==="Enter")jump(parseInt(this.value,10))});
+$("rs").addEventListener("change",function(){var q=this.value.trim().toLowerCase(),r=RANKS.filter(function(r){return r[1].toLowerCase()===q})[0]||RANKS.filter(function(r){return r[1].toLowerCase().indexOf(q)>-1})[0];if(r&&q){jump(Math.max(1,r[0]));this.value=r[1]}});
+// planner
+$("ev").innerHTML=EVS.map(function(e){return'<option value="'+e+'">'+(e===1?"1x (no event)":e+"x")+'</option>'}).join("");
+$("pre").innerHTML=[10,50,100,250,400,800].map(function(l){return'<button type="button" data-l="'+l+'">Lv '+l+'</button>'}).join("");
+$("pre").addEventListener("click",function(e){var l=e.target.getAttribute&&e.target.getAttribute("data-l");if(l){$("to").value=l;plan()}});
+$("t-rank").addEventListener("click",function(e){var tr=e.target.closest("tr");if(!tr)return;var l=parseInt(tr.firstChild.textContent,10);if(l>0){$("to").value=l;plan();$("planner").scrollIntoView()}});
+$("t-rank").style.cursor="pointer";
+var cl=function(v,a,b){return Math.max(a,Math.min(b,v))};
+function plan(){var f=parseInt($("from").value,10),t=parseInt($("to").value,10),ev=parseFloat($("ev").value)||1,h=parseFloat($("hpd").value)||2;
+if(isNaN(f))f=0;if(isNaN(t))t=100;f=cl(f,0,799);t=cl(t,1,800);h=cl(h,.25,24);var bad=t<=f;
+$("perr").hidden=!bad;$("pbody").hidden=bad;if(bad)return;
+var a=R[f],b=R[t],ch=(b.chat-a.chat)/ev,vo=(b.voice-a.voice)/ev;
+$("o-xp").textContent=nf(b.total-a.total);$("o-msg").textContent=nf(Math.ceil((b.mraw-a.mraw)/ev-1e-9));$("o-chat").textContent=fmt(ch);$("o-voice").textContent=fmt(vo);
+$("e-chat").textContent=days(ch,h);$("e-voice").textContent=days(vo,h);
+$("bar").style.width=(b.total?100*a.total/b.total:0)+"%";
+var rk=rankAt(t);$("o-state").innerHTML='At level <b>'+t+'</b>: <b>'+boostAt(t)+'x</b> XP boost, <b>'+cdAt(t)+'s</b> cooldown, rank <b style="color:'+rk[2]+'">'+rk[1]+'</b>.';
+var c=[];BOOSTS.forEach(function(p){if(p[0]>f&&p[0]<=t)c.push([p[0],"b","Lv "+p[0]+" &middot; "+p[2]+" "+p[1]+"x"])});COOLS.forEach(function(p){if(p[0]>f&&p[0]<=t&&p[0])c.push([p[0],"c","Lv "+p[0]+" &middot; "+p[2]+" "+p[1]+"s"])});
+c.sort(function(p,q){return p[0]-q[0]});
+$("o-chips").innerHTML=c.length?c.map(function(k){return'<li class="'+k[1]+'">'+k[2]+'</li>'}).join(""):'<li style="color:var(--dim);border-color:var(--line)">No new perks in this range</li>';
+try{history.replaceState(null,"","#plan="+f+","+t+","+ev+","+h)}catch(e){}}
+["from","to","hpd"].forEach(function(i){$(i).addEventListener("input",plan)});$("ev").addEventListener("change",plan);
+$("share").addEventListener("click",function(){var b=this,u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){b.textContent="Copied!"},function(){b.textContent="Copy from address bar"});setTimeout(function(){b.textContent="Copy link to this plan"},2000)});
+var m=/#plan=(\d+),(\d+),([\d.]+),([\d.]+)/.exec(location.hash);if(m){$("from").value=m[1];$("to").value=m[2];$("ev").value=m[3];$("hpd").value=m[4]}
+plan();
+// nav highlight + back to top
+var ls=[].slice.call(document.querySelectorAll(".links a")),tb=$("top-btn");
+if("IntersectionObserver"in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)ls.forEach(function(a){var on=a.getAttribute("href")==="#"+e.target.id;a.classList.toggle("on",on);if(on){var L=a.parentNode;L.scrollLeft=a.offsetLeft-L.clientWidth/2+a.offsetWidth/2}})})},{rootMargin:"-40% 0px -55% 0px"});document.querySelectorAll("section").forEach(function(s){io.observe(s)})}
+window.addEventListener("scroll",function(){tb.style.display=scrollY>900?"block":"none"},{passive:true});
+tb.addEventListener("click",function(){scrollTo({top:0})});
 })();
-</script>
+</script></body></html>
